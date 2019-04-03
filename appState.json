@@ -103,33 +103,7 @@
       }
     ],
     "packageJSON": {
-      "dependencies": {
-        "boto3": {
-          "name": "boto3",
-          "language": "python",
-          "version": "1.9.6",
-          "dev": true,
-          "notRemovable": false
-        },
-        "boto": {
-          "name": "boto",
-          "version": "2.49.0",
-          "dev": false,
-          "language": "python"
-        },
-        "botocore": {
-          "name": "botocore",
-          "version": "1.12.127",
-          "dev": false,
-          "language": "python"
-        },
-        "numpy": {
-          "name": "numpy",
-          "version": "1.13.0",
-          "dev": false,
-          "language": "python"
-        }
-      }
+      "dependencies": {}
     }
   },
   "PROJECT_META": {
@@ -139,7 +113,7 @@
     "projectRegion": "us-east-1",
     "platform": "AWS",
     "platformRegions": {},
-    "lastSave": 1554282806792
+    "lastSave": 1554283664007
   },
   "VCS_STATE": {
     "provider": "GitHub",
