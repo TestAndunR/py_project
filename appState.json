@@ -1,0 +1,151 @@
+{
+  "EDITOR_STATE": {
+    "allProjectFiles": {
+      "d2f9011e-824a-426d-b5df-988151ce3749": {
+        "id": "d2f9011e-824a-426d-b5df-988151ce3749",
+        "parent": null,
+        "name": "py_project",
+        "type": "DIRECTORY",
+        "isDirectory": true,
+        "children": [
+          "00be102f-eb17-4ac7-ba60-6dbe83472a19",
+          "3c11ed9a-7cf3-4593-bda4-3aa48ea33fa9"
+        ],
+        "isRemovable": false,
+        "filePath": "py_project"
+      },
+      "00be102f-eb17-4ac7-ba60-6dbe83472a19": {
+        "id": "00be102f-eb17-4ac7-ba60-6dbe83472a19",
+        "parent": "d2f9011e-824a-426d-b5df-988151ce3749",
+        "name": "lambda.js",
+        "type": "JS_LAMBDA",
+        "isDirectory": false,
+        "children": [],
+        "isRemovable": true,
+        "filePath": "py_project/lambda.js",
+        "code": "exports.handler = function (event, context, callback) {\n\n    callback(null, { \"message\": \"Successfully executed\" });\n}",
+        "config": {
+          "runtime": "nodejs8.10",
+          "handler": "handler",
+          "timeout": 60,
+          "memory": 128,
+          "layers": []
+        },
+        "triggers": [],
+        "testCases": {
+          "e47c53cf-6b73-406e-8114-f25480b59475": {
+            "id": "e47c53cf-6b73-406e-8114-f25480b59475",
+            "name": "Unnamed event",
+            "functionId": "00be102f-eb17-4ac7-ba60-6dbe83472a19",
+            "event": "{\n    \"key1\": \"value1\",\n    \"key2\": \"value2\",\n    \"key3\": \"value3\"\n}"
+          }
+        }
+      },
+      "3c11ed9a-7cf3-4593-bda4-3aa48ea33fa9": {
+        "id": "3c11ed9a-7cf3-4593-bda4-3aa48ea33fa9",
+        "parent": "d2f9011e-824a-426d-b5df-988151ce3749",
+        "name": "test.py",
+        "type": "PYTHON_LAMBDA",
+        "isDirectory": false,
+        "children": [],
+        "isRemovable": true,
+        "filePath": "py_project/test.py",
+        "code": "import boto3\nimport botocore\ns3 = boto3.client(\"s3\")\n\ndef handler(event, context):\n\n    file = \"HappyFace5.png\"\n    # try:\n    #     data = s3.list_objects(\n    #         Bucket='aws-amplify-hotspaces',\n    #         MaxKeys=10,\n    #         Prefix=''\n    #     )\n\n    #     print (data)\n    \n    # except BotoCoreError as e:\n    #     print(e)\n    # try:\n    #     data = s3.get_object(\n    #     Bucket=\"aws-amplify-hotspaces\",\n    #     Key=\"HappyFace5.p\"\n    #     )\n    #     print(data)\n    # except Exception as e:\n    #     print(e)\n    \n    try:\n        print (file)\n        data = s3.get_object(\n            Bucket=\"aws-amplify-hotspaces\",\n            Key=file\n        )\n        print (data)\n        \n    except Exception as e:\n        print(e)\n    \n    return {\"message\": \"Successfully executed\"}\n",
+        "config": {
+          "runtime": "python2.7",
+          "handler": "handler",
+          "timeout": 60,
+          "memory": 128,
+          "layers": []
+        },
+        "triggers": [],
+        "testCases": {
+          "f10daeff-6447-45e2-8e2f-95df5859b137": {
+            "id": "f10daeff-6447-45e2-8e2f-95df5859b137",
+            "name": "Unnamed event",
+            "functionId": "3c11ed9a-7cf3-4593-bda4-3aa48ea33fa9",
+            "event": "{\n    \"key1\": \"value1\",\n    \"key2\": \"value2\",\n    \"key3\": \"value3\"\n}"
+          }
+        }
+      }
+    },
+    "deletedFiles": [],
+    "rootNode": "d2f9011e-824a-426d-b5df-988151ce3749",
+    "openFiles": [
+      "3c11ed9a-7cf3-4593-bda4-3aa48ea33fa9"
+    ],
+    "currentFileId": "3c11ed9a-7cf3-4593-bda4-3aa48ea33fa9",
+    "resources": {
+      "s3awsAmplifyHotspaces": {
+        "name": "s3awsAmplifyHotspaces",
+        "type": "S3",
+        "config": {
+          "mode": 1,
+          "bucket": {
+            "region": "us-east-1",
+            "name": "aws-amplify-hotspaces"
+          }
+        }
+      }
+    },
+    "customTemplate": {
+      "dialect": null,
+      "definitions": {}
+    },
+    "envVariables": [
+      {
+        "lambdaId": "all",
+        "varKey": "SIGMA_AWS_ACC_ID",
+        "varValue": null,
+        "shouldPersist": false,
+        "displayOnly": false,
+        "editable": false
+      }
+    ],
+    "packageJSON": {
+      "dependencies": {
+        "boto3": {
+          "name": "boto3",
+          "language": "python",
+          "version": "1.9.6",
+          "dev": true,
+          "notRemovable": false
+        },
+        "boto": {
+          "name": "boto",
+          "version": "2.49.0",
+          "dev": false,
+          "language": "python"
+        },
+        "botocore": {
+          "name": "botocore",
+          "version": "1.12.127",
+          "dev": false,
+          "language": "python"
+        },
+        "numpy": {
+          "name": "numpy",
+          "version": "1.13.0",
+          "dev": false,
+          "language": "python"
+        }
+      }
+    }
+  },
+  "PROJECT_META": {
+    "projectName": "py_project",
+    "projectDescription": "",
+    "projectVersion": "1.0.0",
+    "projectRegion": "us-east-1",
+    "platform": "AWS",
+    "platformRegions": {},
+    "lastSave": 1554282806792
+  },
+  "VCS_STATE": {
+    "provider": "GitHub",
+    "repo": {
+      "name": "py_project",
+      "url": "https://github.com/TestAndunR/py_project"
+    }
+  }
+}
