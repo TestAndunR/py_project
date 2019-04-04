@@ -36,4 +36,12 @@ def handler(event, context):
     except Exception as e:
         print(e)
     
-    return {"message": "Successfully executed"}
+    response = {
+        "isBase64Encoded": 'true',
+        "statusCode": 200,
+        "headers": {
+            "Access-Control-Allow-Origin": "*"
+        },
+        "body": "asasas"
+    }
+    return response
