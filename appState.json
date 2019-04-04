@@ -58,7 +58,12 @@
           "memory": 128,
           "layers": []
         },
-        "triggers": [],
+        "triggers": [
+          {
+            "resourceName": "apigusEast1pytriggerany",
+            "config": {}
+          }
+        ],
         "testCases": {
           "f10daeff-6447-45e2-8e2f-95df5859b137": {
             "id": "f10daeff-6447-45e2-8e2f-95df5859b137",
@@ -85,6 +90,25 @@
             "region": "us-east-1",
             "name": "aws-amplify-hotspaces"
           }
+        }
+      },
+      "apigusEast1pytriggerany": {
+        "name": "apigusEast1pytriggerany",
+        "type": "API_GATEWAY",
+        "config": {
+          "selectedRegion": "us-east-1",
+          "apiMode": 0,
+          "apiName": "py_trigger",
+          "endpointType": "EDGE",
+          "resourceMode": 0,
+          "resourceName": "",
+          "resourcePath": "/",
+          "restMethod": "ANY",
+          "proxyIntegration": false,
+          "enableCORS": false,
+          "stageMode": 0,
+          "stageName": "Prod",
+          "mode": 0
         }
       }
     },
@@ -113,7 +137,7 @@
     "projectRegion": "us-east-1",
     "platform": "AWS",
     "platformRegions": {},
-    "lastSave": 1554283664007
+    "lastSave": 1554353307623
   },
   "VCS_STATE": {
     "provider": "GitHub",
