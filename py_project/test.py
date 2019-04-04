@@ -3,12 +3,15 @@ import botocore
 s3 = boto3.client("s3")
 
 def handler(event, context):
+    print(event)
 
     try:
         data = s3.put_object(
-            Body="Hellow",
+            Body="testpy.txt",
             Bucket="aws-amplify-hotspaces",
-            Key="testpy.txt"
+            Key="Hello world",
+            ServerSideEncryption="AES256",
+            ACL="public-read"
         )
         response = {
             "isBase64Encoded": 'true',
@@ -20,7 +23,7 @@ def handler(event, context):
             "body": str(data)
         }
         return response
-    except Exception as e:
+    except BotoCoreError as e:
         print(e)
         response = {
             "isBase64Encoded": 'true',
@@ -34,7 +37,17 @@ def handler(event, context):
         return response
 
 
-    file = "HappyFace5.png"
+    # try:
+    #     data = s3.put_object(
+    #         Body="Hellow",
+    #         Bucket="aws-amplify-hotspaces",
+    #         Key="testpy.txt"
+    #     )
+        
+    # except Exception as e:
+    #     print(e)
+
+    # file = "HappyFace5.png"
     
     # try:
     #     print (file)

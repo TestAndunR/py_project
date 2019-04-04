@@ -50,7 +50,7 @@
         "children": [],
         "isRemovable": true,
         "filePath": "py_project/test.py",
-        "code": "import boto3\nimport botocore\ns3 = boto3.client(\"s3\")\n\ndef handler(event, context):\n\n    try:\n        data = s3.put_object(\n            Body=\"Hellow\",\n            Bucket=\"aws-amplify-hotspaces\",\n            Key=\"testpy.txt\"\n        )\n        response = {\n            \"isBase64Encoded\": 'true',\n            \"statusCode\": 200,\n            \"headers\": {\n                \"Access-Control-Allow-Origin\": \"*\",\n                \"Access-Control-Allow-Methods\": \"*\"\n            },\n            \"body\": str(data)\n        }\n        return response\n    except Exception as e:\n        print(e)\n        response = {\n            \"isBase64Encoded\": 'true',\n            \"statusCode\": 502,\n            \"headers\": {\n                \"Access-Control-Allow-Origin\": \"*\",\n                \"Access-Control-Allow-Methods\": \"*\"\n            },\n            \"body\": str(e)\n        }\n        return response\n\n\n    file = \"HappyFace5.png\"\n    \n    # try:\n    #     print (file)\n    #     data = s3.get_object(\n    #         Bucket=\"aws-amplify-hotspaces\",\n    #         Key=file\n    #     )\n    #     print (data)\n    #     response = {\n    #         \"isBase64Encoded\": 'true',\n    #         \"statusCode\": 200,\n    #         \"headers\": {\n    #             \"Access-Control-Allow-Origin\": \"*\",\n    #             \"Access-Control-Allow-Methods\": \"*\"\n    #         },\n    #         \"body\": str(data)\n    #     }\n    #     return response\n\n        \n    # except Exception as e:\n    #     print(e)\n    \n    #     response = {\n    #         \"isBase64Encoded\": 'true',\n    #         \"statusCode\": 502,\n    #         \"headers\": {\n    #             \"Access-Control-Allow-Origin\": \"*\",\n    #             \"Access-Control-Allow-Methods\": \"*\"\n    #         },\n    #         \"body\": str(e)\n    #     }\n    #     return response\n",
+        "code": "import boto3\nimport botocore\ns3 = boto3.client(\"s3\")\n\ndef handler(event, context):\n    print(event)\n\n    try:\n        data = s3.put_object(\n            Body=\"testpy.txt\",\n            Bucket=\"aws-amplify-hotspaces\",\n            Key=\"Hello world\",\n            ServerSideEncryption=\"AES256\",\n            ACL=\"public-read\"\n        )\n        response = {\n            \"isBase64Encoded\": 'true',\n            \"statusCode\": 200,\n            \"headers\": {\n                \"Access-Control-Allow-Origin\": \"*\",\n                \"Access-Control-Allow-Methods\": \"*\"\n            },\n            \"body\": str(data)\n        }\n        return response\n    except BotoCoreError as e:\n        print(e)\n        response = {\n            \"isBase64Encoded\": 'true',\n            \"statusCode\": 502,\n            \"headers\": {\n                \"Access-Control-Allow-Origin\": \"*\",\n                \"Access-Control-Allow-Methods\": \"*\"\n            },\n            \"body\": str(e)\n        }\n        return response\n\n\n    # try:\n    #     data = s3.put_object(\n    #         Body=\"Hellow\",\n    #         Bucket=\"aws-amplify-hotspaces\",\n    #         Key=\"testpy.txt\"\n    #     )\n        \n    # except Exception as e:\n    #     print(e)\n\n    # file = \"HappyFace5.png\"\n    \n    # try:\n    #     print (file)\n    #     data = s3.get_object(\n    #         Bucket=\"aws-amplify-hotspaces\",\n    #         Key=file\n    #     )\n    #     print (data)\n    #     response = {\n    #         \"isBase64Encoded\": 'true',\n    #         \"statusCode\": 200,\n    #         \"headers\": {\n    #             \"Access-Control-Allow-Origin\": \"*\",\n    #             \"Access-Control-Allow-Methods\": \"*\"\n    #         },\n    #         \"body\": str(data)\n    #     }\n    #     return response\n\n        \n    # except Exception as e:\n    #     print(e)\n    \n    #     response = {\n    #         \"isBase64Encoded\": 'true',\n    #         \"statusCode\": 502,\n    #         \"headers\": {\n    #             \"Access-Control-Allow-Origin\": \"*\",\n    #             \"Access-Control-Allow-Methods\": \"*\"\n    #         },\n    #         \"body\": str(e)\n    #     }\n    #     return response\n",
         "config": {
           "runtime": "python2.7",
           "handler": "handler",
@@ -60,8 +60,12 @@
         },
         "triggers": [
           {
-            "resourceName": "apigusEast1pytriggerany",
-            "config": {}
+            "resourceName": "ddbpytable",
+            "config": {
+              "StartingPosition": "TRIM_HORIZON",
+              "BatchSize": "100",
+              "StreamViewType": "NEW_IMAGE"
+            }
           }
         ],
         "testCases": {
@@ -382,6 +386,38 @@
             ]
           }
         }
+      },
+      "ddbpytable": {
+        "name": "ddbpytable",
+        "type": "DynamoDB",
+        "config": {
+          "mode": 0,
+          "table": {
+            "arn": "",
+            "name": "py_table",
+            "partitionKey": "id",
+            "partitionKeyType": "S",
+            "hasSortKey": false,
+            "sortKey": "",
+            "sortKeyType": "S",
+            "mode": 0
+          },
+          "parameters": {
+            "Key": {},
+            "Item": {},
+            "ExpressionAttributeValues": {}
+          },
+          "triggerParams": {
+            "StartingPosition": "TRIM_HORIZON",
+            "BatchSize": "100",
+            "StreamViewType": "NEW_IMAGE"
+          },
+          "validator": {
+            "validatableFields": {},
+            "validity": true
+          },
+          "valid": true
+        }
       }
     },
     "customTemplate": {
@@ -424,7 +460,7 @@
     "projectRegion": "us-east-1",
     "platform": "AWS",
     "platformRegions": {},
-    "lastSave": 1554356574635
+    "lastSave": 1554368249817
   },
   "VCS_STATE": {
     "provider": "GitHub",
