@@ -40,7 +40,8 @@ def handler(event, context):
         "isBase64Encoded": 'true',
         "statusCode": 200,
         "headers": {
-            "Access-Control-Allow-Origin": "*"
+            "Access-Control-Allow-Origin": "*",
+            "Access-Control-Allow-Methods": "*"
         },
         "body": "asasas"
     }

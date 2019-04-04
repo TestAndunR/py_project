@@ -50,7 +50,7 @@
         "children": [],
         "isRemovable": true,
         "filePath": "py_project/test.py",
-        "code": "import boto3\nimport botocore\ns3 = boto3.client(\"s3\")\n\ndef handler(event, context):\n\n    file = \"HappyFace5.png\"\n    # try:\n    #     data = s3.list_objects(\n    #         Bucket='aws-amplify-hotspaces',\n    #         MaxKeys=10,\n    #         Prefix=''\n    #     )\n\n    #     print (data)\n    \n    # except BotoCoreError as e:\n    #     print(e)\n    # try:\n    #     data = s3.get_object(\n    #     Bucket=\"aws-amplify-hotspaces\",\n    #     Key=\"HappyFace5.p\"\n    #     )\n    #     print(data)\n    # except Exception as e:\n    #     print(e)\n    \n    try:\n        print (file)\n        data = s3.get_object(\n            Bucket=\"aws-amplify-hotspaces\",\n            Key=file\n        )\n        print (data)\n        \n    except Exception as e:\n        print(e)\n    \n    response = {\n        \"isBase64Encoded\": 'true',\n        \"statusCode\": 200,\n        \"headers\": {\n            \"Access-Control-Allow-Origin\": \"*\"\n        },\n        \"body\": \"asasas\"\n    }\n    return response\n",
+        "code": "import boto3\nimport botocore\ns3 = boto3.client(\"s3\")\n\ndef handler(event, context):\n\n    file = \"HappyFace5.png\"\n    # try:\n    #     data = s3.list_objects(\n    #         Bucket='aws-amplify-hotspaces',\n    #         MaxKeys=10,\n    #         Prefix=''\n    #     )\n\n    #     print (data)\n    \n    # except BotoCoreError as e:\n    #     print(e)\n    # try:\n    #     data = s3.get_object(\n    #     Bucket=\"aws-amplify-hotspaces\",\n    #     Key=\"HappyFace5.p\"\n    #     )\n    #     print(data)\n    # except Exception as e:\n    #     print(e)\n    \n    try:\n        print (file)\n        data = s3.get_object(\n            Bucket=\"aws-amplify-hotspaces\",\n            Key=file\n        )\n        print (data)\n        \n    except Exception as e:\n        print(e)\n    \n    response = {\n        \"isBase64Encoded\": 'true',\n        \"statusCode\": 200,\n        \"headers\": {\n            \"Access-Control-Allow-Origin\": \"*\",\n            \"Access-Control-Allow-Methods\": \"*\"\n        },\n        \"body\": \"asasas\"\n    }\n    return response\n",
         "config": {
           "runtime": "python2.7",
           "handler": "handler",
@@ -137,7 +137,7 @@
     "projectRegion": "us-east-1",
     "platform": "AWS",
     "platformRegions": {},
-    "lastSave": 1554353710307
+    "lastSave": 1554353835252
   },
   "VCS_STATE": {
     "provider": "GitHub",
