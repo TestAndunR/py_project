@@ -23,7 +23,7 @@
         "children": [],
         "isRemovable": true,
         "filePath": "py_project/lambda.js",
-        "code": "exports.handler = function (event, context, callback) {\n\n    callback(null, { \"message\": \"Successfully executed\" });\n}",
+        "code": "let AWS = require('aws-sdk')\nconst cognito_idp = new AWS.CognitoIdentityServiceProvider();\nconst s3 = new AWS.S3();\n\nexports.handler = function (event, context, callback) {\n    s3.getObject({\n        'Bucket': \"aws-amplify-hotspaces\",\n        'Key': \"HappyFace.+@{type}\"\n    }).promise()\n        .then(data => {\n            console.log(data);           // successful response\n            /*\n            data = {\n                AcceptRanges: \"bytes\", \n                ContentLength: 3191, \n                ContentType: \"image/jpeg\", \n                ETag: \"\\\\\"6805f2cfc46c0f04559748bb039d69ae\\\\\"\", \n                LastModified: <Date Representation>, \n                Metadata: {...}, \n                TagCount: 2, \n                VersionId: \"null\"\n            }\n            */\n        })\n        .catch(err => {\n            console.log(err, err.stack); // an error occurred\n        });\n    cognito_idp.listUsers({\n        UserPoolId: \"us-east-1_mcdTV1jKi\",\n        Filter: `aa${count}`,\n        Limit: \"10\"\n    }, function (error, data) {\n        if (error) {\n            // implement error handling logic here\n            throw error;\n        }\n        // your logic goes within this block\n    });\n\n    callback(null, { \"message\": \"Successfully executed\" });\n}",
         "config": {
           "runtime": "nodejs8.10",
           "handler": "handler",
@@ -50,7 +50,7 @@
         "children": [],
         "isRemovable": true,
         "filePath": "py_project/test.py",
-        "code": "import boto3\nimport botocore\ns3 = boto3.client(\"s3\")\n\ndef handler(event, context):\n\n    file = \"HappyFace5.png\"\n    # try:\n    #     data = s3.list_objects(\n    #         Bucket='aws-amplify-hotspaces',\n    #         MaxKeys=10,\n    #         Prefix=''\n    #     )\n\n    #     print (data)\n    \n    # except BotoCoreError as e:\n    #     print(e)\n    # try:\n    #     data = s3.get_object(\n    #     Bucket=\"aws-amplify-hotspaces\",\n    #     Key=\"HappyFace5.p\"\n    #     )\n    #     print(data)\n    # except Exception as e:\n    #     print(e)\n    \n    try:\n        print (file)\n        data = s3.get_object(\n            Bucket=\"aws-amplify-hotspaces\",\n            Key=file\n        )\n        print (data)\n        \n    except Exception as e:\n        print(e)\n    \n    response = {\n        \"isBase64Encoded\": 'true',\n        \"statusCode\": 200,\n        \"headers\": {\n            \"Access-Control-Allow-Origin\": \"*\",\n            \"Access-Control-Allow-Methods\": \"*\"\n        },\n        \"body\": \"asasas\"\n    }\n    return response\n",
+        "code": "import boto3\nimport botocore\ns3 = boto3.client(\"s3\")\n\ndef handler(event, context):\n\n    file = \"HappyFace5.pn\"\n    \n    try:\n        print (file)\n        data = s3.get_object(\n            Bucket=\"aws-amplify-hotspaces\",\n            Key=file\n        )\n        print (data)\n        response = {\n            \"isBase64Encoded\": 'true',\n            \"statusCode\": 200,\n            \"headers\": {\n                \"Access-Control-Allow-Origin\": \"*\",\n                \"Access-Control-Allow-Methods\": \"*\"\n            },\n            \"body\": str(data)\n        }\n        return response\n\n        \n    except Exception as e:\n        print(e)\n    \n        response = {\n            \"isBase64Encoded\": 'true',\n            \"statusCode\": 502,\n            \"headers\": {\n                \"Access-Control-Allow-Origin\": \"*\",\n                \"Access-Control-Allow-Methods\": \"*\"\n            },\n            \"body\": str(e)\n        }\n        return response\n",
         "config": {
           "runtime": "python2.7",
           "handler": "handler",
@@ -77,7 +77,8 @@
     "deletedFiles": [],
     "rootNode": "d2f9011e-824a-426d-b5df-988151ce3749",
     "openFiles": [
-      "3c11ed9a-7cf3-4593-bda4-3aa48ea33fa9"
+      "3c11ed9a-7cf3-4593-bda4-3aa48ea33fa9",
+      "00be102f-eb17-4ac7-ba60-6dbe83472a19"
     ],
     "currentFileId": "3c11ed9a-7cf3-4593-bda4-3aa48ea33fa9",
     "resources": {
@@ -110,6 +111,277 @@
           "stageName": "Prod",
           "mode": 0
         }
+      },
+      "cognitoHotSpacesVendorAppDev": {
+        "name": "cognitoHotSpacesVendorAppDev",
+        "type": "CognitoIdentityServiceProvider",
+        "config": {
+          "mode": 1,
+          "name": "HotSpaces Vendor App Dev",
+          "arn": "arn:aws:cognito-idp:us-east-1:318300609668:userpool/us-east-1_mcdTV1jKi",
+          "userPool": {
+            "Id": "us-east-1_mcdTV1jKi",
+            "Name": "HotSpaces Vendor App Dev",
+            "LambdaConfig": {},
+            "Policies": {
+              "PasswordPolicy": {
+                "MinimumLength": 8,
+                "RequireUppercase": false,
+                "RequireLowercase": false,
+                "RequireNumbers": false,
+                "RequireSymbols": false
+              }
+            },
+            "AutoVerifiedAttributes": [
+              "email"
+            ],
+            "UsernameAttributes": [
+              "email",
+              "phone_number"
+            ],
+            "SmsVerificationMessage": "Your verification code is {####}. ",
+            "EmailVerificationMessage": "Your verification code is {####}. ",
+            "EmailVerificationSubject": "Your verification code",
+            "VerificationMessageTemplate": {
+              "SmsMessage": "Your verification code is {####}. ",
+              "EmailMessage": "Your verification code is {####}. ",
+              "EmailSubject": "Your verification code",
+              "EmailMessageByLink": "Please click the link below to verify your email address. {##Verify Email##} ",
+              "EmailSubjectByLink": "[HotSpaces] Your verification link",
+              "DefaultEmailOption": "CONFIRM_WITH_LINK"
+            },
+            "SmsAuthenticationMessage": "Your authentication code is {####}. ",
+            "MfaConfiguration": "OPTIONAL",
+            "EmailConfiguration": {},
+            "SmsConfiguration": {
+              "SnsCallerArn": "arn:aws:iam::318300609668:role/service-role/HotSpacesVendorAppDev-SMS-Role",
+              "ExternalId": "76e0044a-336d-4127-8d16-8f48e087a9e0"
+            },
+            "UserPoolTags": {},
+            "AdminCreateUserConfig": {
+              "AllowAdminCreateUserOnly": true,
+              "UnusedAccountValidityDays": 30,
+              "InviteMessageTemplate": {
+                "SMSMessage": "Your username for HotSpaces vendor app is {username} and temporary password is {####}. ",
+                "EmailMessage": "Your username for HotSpaces vendor app is {username} and temporary password is {####}. ",
+                "EmailSubject": "[HotSpaces] Your temporary password"
+              }
+            },
+            "SchemaAttributes": [
+              {
+                "Name": "sub",
+                "AttributeDataType": "String",
+                "DeveloperOnlyAttribute": false,
+                "Mutable": false,
+                "Required": true,
+                "StringAttributeConstraints": {
+                  "MinLength": "1",
+                  "MaxLength": "2048"
+                }
+              },
+              {
+                "Name": "name",
+                "AttributeDataType": "String",
+                "DeveloperOnlyAttribute": false,
+                "Mutable": true,
+                "Required": true,
+                "StringAttributeConstraints": {
+                  "MinLength": "0",
+                  "MaxLength": "2048"
+                }
+              },
+              {
+                "Name": "given_name",
+                "AttributeDataType": "String",
+                "DeveloperOnlyAttribute": false,
+                "Mutable": true,
+                "Required": false,
+                "StringAttributeConstraints": {
+                  "MinLength": "0",
+                  "MaxLength": "2048"
+                }
+              },
+              {
+                "Name": "family_name",
+                "AttributeDataType": "String",
+                "DeveloperOnlyAttribute": false,
+                "Mutable": true,
+                "Required": false,
+                "StringAttributeConstraints": {
+                  "MinLength": "0",
+                  "MaxLength": "2048"
+                }
+              },
+              {
+                "Name": "middle_name",
+                "AttributeDataType": "String",
+                "DeveloperOnlyAttribute": false,
+                "Mutable": true,
+                "Required": false,
+                "StringAttributeConstraints": {
+                  "MinLength": "0",
+                  "MaxLength": "2048"
+                }
+              },
+              {
+                "Name": "nickname",
+                "AttributeDataType": "String",
+                "DeveloperOnlyAttribute": false,
+                "Mutable": true,
+                "Required": false,
+                "StringAttributeConstraints": {
+                  "MinLength": "0",
+                  "MaxLength": "2048"
+                }
+              },
+              {
+                "Name": "preferred_username",
+                "AttributeDataType": "String",
+                "DeveloperOnlyAttribute": false,
+                "Mutable": true,
+                "Required": false,
+                "StringAttributeConstraints": {
+                  "MinLength": "0",
+                  "MaxLength": "2048"
+                }
+              },
+              {
+                "Name": "profile",
+                "AttributeDataType": "String",
+                "DeveloperOnlyAttribute": false,
+                "Mutable": true,
+                "Required": false,
+                "StringAttributeConstraints": {
+                  "MinLength": "0",
+                  "MaxLength": "2048"
+                }
+              },
+              {
+                "Name": "picture",
+                "AttributeDataType": "String",
+                "DeveloperOnlyAttribute": false,
+                "Mutable": true,
+                "Required": false,
+                "StringAttributeConstraints": {
+                  "MinLength": "0",
+                  "MaxLength": "2048"
+                }
+              },
+              {
+                "Name": "website",
+                "AttributeDataType": "String",
+                "DeveloperOnlyAttribute": false,
+                "Mutable": true,
+                "Required": false,
+                "StringAttributeConstraints": {
+                  "MinLength": "0",
+                  "MaxLength": "2048"
+                }
+              },
+              {
+                "Name": "email",
+                "AttributeDataType": "String",
+                "DeveloperOnlyAttribute": false,
+                "Mutable": true,
+                "Required": true,
+                "StringAttributeConstraints": {
+                  "MinLength": "0",
+                  "MaxLength": "2048"
+                }
+              },
+              {
+                "Name": "email_verified",
+                "AttributeDataType": "Boolean",
+                "DeveloperOnlyAttribute": false,
+                "Mutable": true,
+                "Required": false
+              },
+              {
+                "Name": "gender",
+                "AttributeDataType": "String",
+                "DeveloperOnlyAttribute": false,
+                "Mutable": true,
+                "Required": false,
+                "StringAttributeConstraints": {
+                  "MinLength": "0",
+                  "MaxLength": "2048"
+                }
+              },
+              {
+                "Name": "birthdate",
+                "AttributeDataType": "String",
+                "DeveloperOnlyAttribute": false,
+                "Mutable": true,
+                "Required": false,
+                "StringAttributeConstraints": {
+                  "MinLength": "10",
+                  "MaxLength": "10"
+                }
+              },
+              {
+                "Name": "zoneinfo",
+                "AttributeDataType": "String",
+                "DeveloperOnlyAttribute": false,
+                "Mutable": true,
+                "Required": false,
+                "StringAttributeConstraints": {
+                  "MinLength": "0",
+                  "MaxLength": "2048"
+                }
+              },
+              {
+                "Name": "locale",
+                "AttributeDataType": "String",
+                "DeveloperOnlyAttribute": false,
+                "Mutable": true,
+                "Required": false,
+                "StringAttributeConstraints": {
+                  "MinLength": "0",
+                  "MaxLength": "2048"
+                }
+              },
+              {
+                "Name": "phone_number",
+                "AttributeDataType": "String",
+                "DeveloperOnlyAttribute": false,
+                "Mutable": true,
+                "Required": true,
+                "StringAttributeConstraints": {
+                  "MinLength": "0",
+                  "MaxLength": "2048"
+                }
+              },
+              {
+                "Name": "phone_number_verified",
+                "AttributeDataType": "Boolean",
+                "DeveloperOnlyAttribute": false,
+                "Mutable": true,
+                "Required": false
+              },
+              {
+                "Name": "address",
+                "AttributeDataType": "String",
+                "DeveloperOnlyAttribute": false,
+                "Mutable": true,
+                "Required": false,
+                "StringAttributeConstraints": {
+                  "MinLength": "0",
+                  "MaxLength": "2048"
+                }
+              },
+              {
+                "Name": "updated_at",
+                "AttributeDataType": "Number",
+                "DeveloperOnlyAttribute": false,
+                "Mutable": true,
+                "Required": false,
+                "NumberAttributeConstraints": {
+                  "MinValue": "0"
+                }
+              }
+            ]
+          }
+        }
       }
     },
     "customTemplate": {
@@ -127,7 +399,15 @@
       }
     ],
     "packageJSON": {
-      "dependencies": {}
+      "dependencies": {
+        "aws-sdk": {
+          "name": "aws-sdk",
+          "language": "javascript",
+          "version": "2.176.0",
+          "dev": true,
+          "notRemovable": false
+        }
+      }
     }
   },
   "PROJECT_META": {
@@ -137,7 +417,7 @@
     "projectRegion": "us-east-1",
     "platform": "AWS",
     "platformRegions": {},
-    "lastSave": 1554353835252
+    "lastSave": 1554355633978
   },
   "VCS_STATE": {
     "provider": "GitHub",

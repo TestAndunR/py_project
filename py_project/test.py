@@ -4,26 +4,7 @@ s3 = boto3.client("s3")
 
 def handler(event, context):
 
-    file = "HappyFace5.png"
-    # try:
-    #     data = s3.list_objects(
-    #         Bucket='aws-amplify-hotspaces',
-    #         MaxKeys=10,
-    #         Prefix=''
-    #     )
-
-    #     print (data)
-    
-    # except BotoCoreError as e:
-    #     print(e)
-    # try:
-    #     data = s3.get_object(
-    #     Bucket="aws-amplify-hotspaces",
-    #     Key="HappyFace5.p"
-    #     )
-    #     print(data)
-    # except Exception as e:
-    #     print(e)
+    file = "HappyFace5.pn"
     
     try:
         print (file)
@@ -32,17 +13,28 @@ def handler(event, context):
             Key=file
         )
         print (data)
+        response = {
+            "isBase64Encoded": 'true',
+            "statusCode": 200,
+            "headers": {
+                "Access-Control-Allow-Origin": "*",
+                "Access-Control-Allow-Methods": "*"
+            },
+            "body": str(data)
+        }
+        return response
+
         
     except Exception as e:
         print(e)
     
-    response = {
-        "isBase64Encoded": 'true',
-        "statusCode": 200,
-        "headers": {
-            "Access-Control-Allow-Origin": "*",
-            "Access-Control-Allow-Methods": "*"
-        },
-        "body": "asasas"
-    }
-    return response
+        response = {
+            "isBase64Encoded": 'true',
+            "statusCode": 502,
+            "headers": {
+                "Access-Control-Allow-Origin": "*",
+                "Access-Control-Allow-Methods": "*"
+            },
+            "body": str(e)
+        }
+        return response
