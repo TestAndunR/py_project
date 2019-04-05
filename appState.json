@@ -78,20 +78,7 @@
         },
         "customSecurityPolicy": {
           "Version": "2012-10-17",
-          "Statement": [
-            {
-              "Effect": "Allow",
-              "Resource": {
-                "Fn::GetAtt": [
-                  "ddbpytable",
-                  "Arn"
-                ]
-              },
-              "Action": [
-                "dynamodb:PutItem"
-              ]
-            }
-          ]
+          "Statement": []
         }
       }
     },
@@ -537,7 +524,7 @@
     "projectRegion": "us-east-1",
     "platform": "AWS",
     "platformRegions": {},
-    "lastSave": 1554440303652
+    "lastSave": 1554440711476
   },
   "VCS_STATE": {
     "provider": "GitHub",
