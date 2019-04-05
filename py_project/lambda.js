@@ -7,7 +7,7 @@ exports.handler = function (event, context, callback) {
 
     ddb.put({
         TableName: 'py_table',
-        Item: { 'id': '1', 'name': 'Aaaa' }
+        Item: { 'id': '1', 'name': 'bbb' }
     }).promise()
         .then((data) => {
             //your logic goes here
