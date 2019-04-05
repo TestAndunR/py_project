@@ -78,7 +78,20 @@
         },
         "customSecurityPolicy": {
           "Version": "2012-10-17",
-          "Statement": []
+          "Statement": [
+            {
+              "Effect": "Allow",
+              "Resource": {
+                "Fn::GetAtt": [
+                  "ddbpytable",
+                  "Arn"
+                ]
+              },
+              "Action": [
+                "dynamodb:PutItem"
+              ]
+            }
+          ]
         }
       }
     },
@@ -427,65 +440,7 @@
     "customTemplate": {
       "dialect": "CloudFormation",
       "definitions": {
-        "Resources": {
-          "pyprojecttestExecutionRole": {
-            "Properties": {
-              "Policies": [
-                {
-                  "PolicyName": "pyprojecttestPolicy",
-                  "PolicyDocument": {
-                    "Version": "2012-10-17",
-                    "Statement": [
-                      {
-                        "Effect": "Allow",
-                        "Action": [
-                          "dynamodb:PutItem"
-                        ],
-                        "Resource": {
-                          "Fn::GetAtt": [
-                            "ddbpytable",
-                            "Arn"
-                          ]
-                        }
-                      },
-                      {
-                        "Effect": "Allow",
-                        "Action": [
-                          "s3:PutObject",
-                          "s3:PutObjectAcl"
-                        ],
-                        "Resource": {
-                          "Fn::Join": [
-                            "/",
-                            [
-                              "arn:aws:s3:::aws-amplify-hotspaces",
-                              "*"
-                            ]
-                          ]
-                        }
-                      },
-                      {
-                        "Effect": "Allow",
-                        "Action": [
-                          "dynamodb:ListStreams",
-                          "dynamodb:DescribeStream",
-                          "dynamodb:GetShardIterator",
-                          "dynamodb:GetRecords"
-                        ],
-                        "Resource": {
-                          "Fn::GetAtt": [
-                            "ddbpytable",
-                            "StreamArn"
-                          ]
-                        }
-                      }
-                    ]
-                  }
-                }
-              ]
-            }
-          }
-        }
+        "Resources": {}
       }
     },
     "envVariables": [
@@ -524,7 +479,7 @@
     "projectRegion": "us-east-1",
     "platform": "AWS",
     "platformRegions": {},
-    "lastSave": 1554440711476
+    "lastSave": 1554440894257
   },
   "VCS_STATE": {
     "provider": "GitHub",
