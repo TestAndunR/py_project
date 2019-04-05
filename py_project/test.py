@@ -4,7 +4,17 @@ s3 = boto3.client("s3")
 
 def handler(event, context):
     print(event)
-
+    try:
+        data = dynamodb.put_item(
+            TableName='py_table', 
+            Item={'id':{'S':'2'},'name':{'S':'bbbb'}}
+            )
+        print (data)
+    
+    except Exception as e:
+        print (e)
+    
+    
     try:
         data = s3.put_object(
             Body="testpy.txt",

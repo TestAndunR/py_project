@@ -23,7 +23,7 @@
         "children": [],
         "isRemovable": true,
         "filePath": "py_project/lambda.js",
-        "code": "let AWS = require('aws-sdk')\nconst cognito_idp = new AWS.CognitoIdentityServiceProvider();\nconst s3 = new AWS.S3();\n\nexports.handler = function (event, context, callback) {\n    s3.getObject({\n        'Bucket': \"aws-amplify-hotspaces\",\n        'Key': \"HappyFace.+@{type}\"\n    }).promise()\n        .then(data => {\n            console.log(data);           // successful response\n            /*\n            data = {\n                AcceptRanges: \"bytes\", \n                ContentLength: 3191, \n                ContentType: \"image/jpeg\", \n                ETag: \"\\\\\"6805f2cfc46c0f04559748bb039d69ae\\\\\"\", \n                LastModified: <Date Representation>, \n                Metadata: {...}, \n                TagCount: 2, \n                VersionId: \"null\"\n            }\n            */\n        })\n        .catch(err => {\n            console.log(err, err.stack); // an error occurred\n        });\n    cognito_idp.listUsers({\n        UserPoolId: \"us-east-1_mcdTV1jKi\",\n        Filter: `aa${count}`,\n        Limit: \"10\"\n    }, function (error, data) {\n        if (error) {\n            // implement error handling logic here\n            throw error;\n        }\n        // your logic goes within this block\n    });\n\n    callback(null, { \"message\": \"Successfully executed\" });\n}",
+        "code": "let AWS = require('aws-sdk')\nconst ddb = new AWS.DynamoDB.DocumentClient();\nconst cognito_idp = new AWS.CognitoIdentityServiceProvider();\nconst s3 = new AWS.S3();\n\nexports.handler = function (event, context, callback) {\n\n    ddb.put({\n        TableName: 'py_table',\n        Item: { 'id': '1', 'name': 'Aaaa' }\n    }).promise()\n        .then((data) => {\n            //your logic goes here\n        })\n        .catch((err) => {\n            //handle error\n        });\n\n    callback(null, { \"message\": \"Successfully executed\" });\n}",
         "config": {
           "runtime": "nodejs8.10",
           "handler": "handler",
@@ -50,9 +50,9 @@
         "children": [],
         "isRemovable": true,
         "filePath": "py_project/test.py",
-        "code": "import boto3\nimport botocore\ns3 = boto3.client(\"s3\")\n\ndef handler(event, context):\n    print(event)\n\n    try:\n        data = s3.put_object(\n            Body=\"testpy.txt\",\n            Bucket=\"aws-amplify-hotspaces\",\n            Key=\"Hello world\",\n            ServerSideEncryption=\"AES256\",\n            ACL=\"public-read\"\n        )\n        response = {\n            \"isBase64Encoded\": 'true',\n            \"statusCode\": 200,\n            \"headers\": {\n                \"Access-Control-Allow-Origin\": \"*\",\n                \"Access-Control-Allow-Methods\": \"*\"\n            },\n            \"body\": str(data)\n        }\n        return response\n    except BotoCoreError as e:\n        print(e)\n        response = {\n            \"isBase64Encoded\": 'true',\n            \"statusCode\": 502,\n            \"headers\": {\n                \"Access-Control-Allow-Origin\": \"*\",\n                \"Access-Control-Allow-Methods\": \"*\"\n            },\n            \"body\": str(e)\n        }\n        return response\n\n\n    # try:\n    #     data = s3.put_object(\n    #         Body=\"Hellow\",\n    #         Bucket=\"aws-amplify-hotspaces\",\n    #         Key=\"testpy.txt\"\n    #     )\n        \n    # except Exception as e:\n    #     print(e)\n\n    # file = \"HappyFace5.png\"\n    \n    # try:\n    #     print (file)\n    #     data = s3.get_object(\n    #         Bucket=\"aws-amplify-hotspaces\",\n    #         Key=file\n    #     )\n    #     print (data)\n    #     response = {\n    #         \"isBase64Encoded\": 'true',\n    #         \"statusCode\": 200,\n    #         \"headers\": {\n    #             \"Access-Control-Allow-Origin\": \"*\",\n    #             \"Access-Control-Allow-Methods\": \"*\"\n    #         },\n    #         \"body\": str(data)\n    #     }\n    #     return response\n\n        \n    # except Exception as e:\n    #     print(e)\n    \n    #     response = {\n    #         \"isBase64Encoded\": 'true',\n    #         \"statusCode\": 502,\n    #         \"headers\": {\n    #             \"Access-Control-Allow-Origin\": \"*\",\n    #             \"Access-Control-Allow-Methods\": \"*\"\n    #         },\n    #         \"body\": str(e)\n    #     }\n    #     return response\n",
+        "code": "import boto3\nimport botocore\ns3 = boto3.client(\"s3\")\n\ndef handler(event, context):\n    print(event)\n    try:\n        data = dynamodb.put_item(\n            TableName='py_table', \n            Item={'id':{'S':'2'},'name':{'S':'bbbb'}}\n            )\n        print (data)\n    \n    except Exception as e:\n        print (e)\n    \n    \n    try:\n        data = s3.put_object(\n            Body=\"testpy.txt\",\n            Bucket=\"aws-amplify-hotspaces\",\n            Key=\"Hello world\",\n            ServerSideEncryption=\"AES256\",\n            ACL=\"public-read\"\n        )\n        response = {\n            \"isBase64Encoded\": 'true',\n            \"statusCode\": 200,\n            \"headers\": {\n                \"Access-Control-Allow-Origin\": \"*\",\n                \"Access-Control-Allow-Methods\": \"*\"\n            },\n            \"body\": str(data)\n        }\n        return response\n    except BotoCoreError as e:\n        print(e)\n        response = {\n            \"isBase64Encoded\": 'true',\n            \"statusCode\": 502,\n            \"headers\": {\n                \"Access-Control-Allow-Origin\": \"*\",\n                \"Access-Control-Allow-Methods\": \"*\"\n            },\n            \"body\": str(e)\n        }\n        return response\n\n\n    # try:\n    #     data = s3.put_object(\n    #         Body=\"Hellow\",\n    #         Bucket=\"aws-amplify-hotspaces\",\n    #         Key=\"testpy.txt\"\n    #     )\n        \n    # except Exception as e:\n    #     print(e)\n\n    # file = \"HappyFace5.png\"\n    \n    # try:\n    #     print (file)\n    #     data = s3.get_object(\n    #         Bucket=\"aws-amplify-hotspaces\",\n    #         Key=file\n    #     )\n    #     print (data)\n    #     response = {\n    #         \"isBase64Encoded\": 'true',\n    #         \"statusCode\": 200,\n    #         \"headers\": {\n    #             \"Access-Control-Allow-Origin\": \"*\",\n    #             \"Access-Control-Allow-Methods\": \"*\"\n    #         },\n    #         \"body\": str(data)\n    #     }\n    #     return response\n\n        \n    # except Exception as e:\n    #     print(e)\n    \n    #     response = {\n    #         \"isBase64Encoded\": 'true',\n    #         \"statusCode\": 502,\n    #         \"headers\": {\n    #             \"Access-Control-Allow-Origin\": \"*\",\n    #             \"Access-Control-Allow-Methods\": \"*\"\n    #         },\n    #         \"body\": str(e)\n    #     }\n    #     return response\n",
         "config": {
-          "runtime": "python2.7",
+          "runtime": "python3.6",
           "handler": "handler",
           "timeout": 60,
           "memory": 128,
@@ -75,6 +75,23 @@
             "functionId": "3c11ed9a-7cf3-4593-bda4-3aa48ea33fa9",
             "event": "{\n    \"key1\": \"value1\",\n    \"key2\": \"value2\",\n    \"key3\": \"value3\"\n}"
           }
+        },
+        "customSecurityPolicy": {
+          "Version": "2012-10-17",
+          "Statement": [
+            {
+              "Effect": "Allow",
+              "Resource": {
+                "Fn::GetAtt": [
+                  "ddbpytable",
+                  "Arn"
+                ]
+              },
+              "Action": [
+                "dynamodb:PutItem"
+              ]
+            }
+          ]
         }
       }
     },
@@ -392,6 +409,7 @@
         "type": "DynamoDB",
         "config": {
           "mode": 0,
+          "operation": "put",
           "table": {
             "arn": "",
             "name": "py_table",
@@ -404,14 +422,13 @@
           },
           "parameters": {
             "Key": {},
-            "Item": {},
+            "Item": {
+              "id": "1",
+              "name": "Aaaa"
+            },
             "ExpressionAttributeValues": {}
           },
-          "triggerParams": {
-            "StartingPosition": "TRIM_HORIZON",
-            "BatchSize": "100",
-            "StreamViewType": "NEW_IMAGE"
-          },
+          "triggerParams": {},
           "validator": {
             "validatableFields": {},
             "validity": true
@@ -421,8 +438,68 @@
       }
     },
     "customTemplate": {
-      "dialect": null,
-      "definitions": {}
+      "dialect": "CloudFormation",
+      "definitions": {
+        "Resources": {
+          "pyprojecttestExecutionRole": {
+            "Properties": {
+              "Policies": [
+                {
+                  "PolicyName": "pyprojecttestPolicy",
+                  "PolicyDocument": {
+                    "Version": "2012-10-17",
+                    "Statement": [
+                      {
+                        "Effect": "Allow",
+                        "Action": [
+                          "dynamodb:PutItem"
+                        ],
+                        "Resource": {
+                          "Fn::GetAtt": [
+                            "ddbpytable",
+                            "Arn"
+                          ]
+                        }
+                      },
+                      {
+                        "Effect": "Allow",
+                        "Action": [
+                          "s3:PutObject",
+                          "s3:PutObjectAcl"
+                        ],
+                        "Resource": {
+                          "Fn::Join": [
+                            "/",
+                            [
+                              "arn:aws:s3:::aws-amplify-hotspaces",
+                              "*"
+                            ]
+                          ]
+                        }
+                      },
+                      {
+                        "Effect": "Allow",
+                        "Action": [
+                          "dynamodb:ListStreams",
+                          "dynamodb:DescribeStream",
+                          "dynamodb:GetShardIterator",
+                          "dynamodb:GetRecords"
+                        ],
+                        "Resource": {
+                          "Fn::GetAtt": [
+                            "ddbpytable",
+                            "StreamArn"
+                          ]
+                        }
+                      }
+                    ]
+                  }
+                }
+              ]
+            }
+          }
+        }
+      }
     },
     "envVariables": [
       {
@@ -460,7 +537,7 @@
     "projectRegion": "us-east-1",
     "platform": "AWS",
     "platformRegions": {},
-    "lastSave": 1554368249817
+    "lastSave": 1554440303652
   },
   "VCS_STATE": {
     "provider": "GitHub",
