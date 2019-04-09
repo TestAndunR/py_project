@@ -1,19 +1,20 @@
 import boto3
 import botocore
+from modules.functions import add
 s3 = boto3.client("s3")
 dynamodb = boto3.resource('dynamodb')
 
 def handler(event, context):
-    print(event)
-    try:
-        data = dynamodb.put_item(
-            TableName='py_table', 
-            Item={'id':{'S':'2'},'name':{'S':'bbbb'}}
-            )
-        print (data)
+    # print(event)
+    # try:
+    #     data = dynamodb.put_item(
+    #         TableName='py_table', 
+    #         Item={'id':{'S':'2'},'name':{'S':'bbbb'}}
+    #         )
+    #     print (data)
     
-    except Exception as e:
-        print (e)
+    # except Exception as e:
+    #     print (e)
     
     
     try:
@@ -31,7 +32,7 @@ def handler(event, context):
                 "Access-Control-Allow-Origin": "*",
                 "Access-Control-Allow-Methods": "*"
             },
-            "body": str(data)
+            "body": str(add(10, 20))
         }
         return response
     except BotoCoreError as e:
