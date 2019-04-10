@@ -32,7 +32,12 @@
           "memory": 128,
           "layers": []
         },
-        "triggers": [],
+        "triggers": [
+          {
+            "resourceName": "apigusEast1pytriggerany",
+            "config": {}
+          }
+        ],
         "testCases": {
           "e47c53cf-6b73-406e-8114-f25480b59475": {
             "id": "e47c53cf-6b73-406e-8114-f25480b59475",
@@ -53,7 +58,7 @@
         "filePath": "py_project/test.py",
         "code": "import boto3\nimport botocore\nfrom modules.functions import add\ns3 = boto3.client(\"s3\")\ndynamodb = boto3.resource('dynamodb')\n\ndef handler(event, context):\n    # print(event)\n    # try:\n    #     data = dynamodb.put_item(\n    #         TableName='py_table', \n    #         Item={'id':{'S':'2'},'name':{'S':'bbbb'}}\n    #         )\n    #     print (data)\n    \n    # except Exception as e:\n    #     print (e)\n    \n    \n    try:\n        data = s3.put_object(\n            Body=\"testpy.txt\",\n            Bucket=\"aws-amplify-hotspaces\",\n            Key=\"Hello world\",\n            ServerSideEncryption=\"AES256\",\n            ACL=\"public-read\"\n        )\n        response = {\n            \"isBase64Encoded\": 'true',\n            \"statusCode\": 200,\n            \"headers\": {\n                \"Access-Control-Allow-Origin\": \"*\",\n                \"Access-Control-Allow-Methods\": \"*\"\n            },\n            \"body\": str(add(10, 20))\n        }\n        return response\n    except BotoCoreError as e:\n        print(e)\n        response = {\n            \"isBase64Encoded\": 'true',\n            \"statusCode\": 502,\n            \"headers\": {\n                \"Access-Control-Allow-Origin\": \"*\",\n                \"Access-Control-Allow-Methods\": \"*\"\n            },\n            \"body\": str(e)\n        }\n        return response\n\n\n    # try:\n    #     data = s3.put_object(\n    #         Body=\"Hellow\",\n    #         Bucket=\"aws-amplify-hotspaces\",\n    #         Key=\"testpy.txt\"\n    #     )\n        \n    # except Exception as e:\n    #     print(e)\n\n    # file = \"HappyFace5.png\"\n    \n    # try:\n    #     print (file)\n    #     data = s3.get_object(\n    #         Bucket=\"aws-amplify-hotspaces\",\n    #         Key=file\n    #     )\n    #     print (data)\n    #     response = {\n    #         \"isBase64Encoded\": 'true',\n    #         \"statusCode\": 200,\n    #         \"headers\": {\n    #             \"Access-Control-Allow-Origin\": \"*\",\n    #             \"Access-Control-Allow-Methods\": \"*\"\n    #         },\n    #         \"body\": str(data)\n    #     }\n    #     return response\n\n        \n    # except Exception as e:\n    #     print(e)\n    \n    #     response = {\n    #         \"isBase64Encoded\": 'true',\n    #         \"statusCode\": 502,\n    #         \"headers\": {\n    #             \"Access-Control-Allow-Origin\": \"*\",\n    #             \"Access-Control-Allow-Methods\": \"*\"\n    #         },\n    #         \"body\": str(e)\n    #     }\n    #     return response\n",
         "config": {
-          "runtime": "python2.7",
+          "runtime": "python3.6",
           "handler": "handler",
           "timeout": 60,
           "memory": 128,
@@ -61,12 +66,8 @@
         },
         "triggers": [
           {
-            "resourceName": "ddbpytable",
-            "config": {
-              "StartingPosition": "TRIM_HORIZON",
-              "BatchSize": "100",
-              "StreamViewType": "NEW_IMAGE"
-            }
+            "resourceName": "apigusEast1pytriggerany",
+            "config": {}
           }
         ],
         "testCases": {
@@ -102,8 +103,7 @@
         "type": "DIRECTORY",
         "isDirectory": true,
         "children": [
-          "ed3c0f28-5ff9-40b5-af86-73c13433becd",
-          "5fc749cb-427c-4143-a5a5-e1d2cacf40d5"
+          "ed3c0f28-5ff9-40b5-af86-73c13433becd"
         ],
         "isRemovable": true,
         "filePath": "py_project/modules"
@@ -118,29 +118,16 @@
         "isRemovable": true,
         "filePath": "py_project/modules/functions.py",
         "code": "def add(arg1, arg2):\n    return arg1 + arg2\n\ndef sub(arg1, arg2) :\n    return arg1 - arg2\n\ndef mul(arg1, arg2) :\n    return arg1 * arg2"
-      },
-      "5fc749cb-427c-4143-a5a5-e1d2cacf40d5": {
-        "id": "5fc749cb-427c-4143-a5a5-e1d2cacf40d5",
-        "parent": "fdc7b9e7-afdf-4238-9da7-6ba05f605100",
-        "name": "__init__.py",
-        "type": "PYTHON_FILE",
-        "isDirectory": false,
-        "children": [],
-        "isRemovable": true,
-        "filePath": "py_project/modules/__init__.py",
-        "code": ""
       }
     },
     "deletedFiles": [
-      "py_project/modules/functions.py",
-      "py_project/functions.py"
+      "py_project/modules/__init__.py"
     ],
     "rootNode": "d2f9011e-824a-426d-b5df-988151ce3749",
     "openFiles": [
       "3c11ed9a-7cf3-4593-bda4-3aa48ea33fa9",
       "00be102f-eb17-4ac7-ba60-6dbe83472a19",
-      "ed3c0f28-5ff9-40b5-af86-73c13433becd",
-      "5fc749cb-427c-4143-a5a5-e1d2cacf40d5"
+      "ed3c0f28-5ff9-40b5-af86-73c13433becd"
     ],
     "currentFileId": "3c11ed9a-7cf3-4593-bda4-3aa48ea33fa9",
     "resources": {
@@ -520,7 +507,7 @@
     "projectRegion": "us-east-1",
     "platform": "AWS",
     "platformRegions": {},
-    "lastSave": 1554800585412
+    "lastSave": 1554874192747
   },
   "VCS_STATE": {
     "provider": "GitHub",
