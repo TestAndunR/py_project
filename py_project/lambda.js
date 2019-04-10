@@ -11,10 +11,20 @@ exports.handler = function (event, context, callback) {
     }).promise()
         .then((data) => {
             //your logic goes here
+            let response = {
+                "isBase64Encoded": true,
+                "statusCode": 200,
+                "headers": {
+                    "Access-Control-Allow-Origin": "*",
+                    "Access-Control-Allow-Methods": "*"
+                },
+                "body": data
+            }
+            callback(null, response);
         })
         .catch((err) => {
             //handle error
         });
 
-    callback(null, { "message": "Successfully executed" });
+    
 }
