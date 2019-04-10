@@ -1,6 +1,6 @@
 import boto3
 import botocore
-from modules.functions import add
+# from modules.functions import add
 s3 = boto3.client("s3")
 dynamodb = boto3.resource('dynamodb')
 
@@ -32,7 +32,7 @@ def handler(event, context):
                 "Access-Control-Allow-Origin": "*",
                 "Access-Control-Allow-Methods": "*"
             },
-            "body": str(add(10, 20))
+            "body": str(10)
         }
         return response
     except BotoCoreError as e:
